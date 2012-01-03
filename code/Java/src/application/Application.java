@@ -12,6 +12,7 @@ public class Application {
 		Shell shell = new Shell(display);
 		
 		shell.setText("A window!");
+		shell.open();
 		
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
