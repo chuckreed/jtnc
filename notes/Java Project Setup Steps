@@ -1,0 +1,10 @@
+- Create a new java project
+	* Project Name: jtnc
+	* Location of project: code/Java folder of your git repository
+	* Use 1.7 JRE 32-bit
+
+- Import the SWT project (currently 3.7.1) archive file from archive/<your OS>/swt.zip to the IDE
+
+- Add the SWT project as a build path required project
+
+
