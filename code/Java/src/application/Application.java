@@ -2,7 +2,6 @@ package application;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.browser.Browser;
 
 public class Application {
 
@@ -11,10 +10,12 @@ public class Application {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		// get cmd line configuration
+		// get config file configuration
+		
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		
-		shell.setText("A window!");
 		shell.open();
 		
 		while (!shell.isDisposed()) {
