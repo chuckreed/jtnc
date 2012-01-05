@@ -1,10 +1,13 @@
 package application;
 
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.browser.Browser;
 
 public class Application {
 
 	/**
+	 * JTNC entry point
 	 * @param args
 	 */
 	public static void main(String[] args) {
