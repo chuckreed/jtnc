@@ -1,3 +1,5 @@
 code/Java/.classpath
 code/Java/.project
 code/Java/.settings
+code/Java/bin
+*.class
