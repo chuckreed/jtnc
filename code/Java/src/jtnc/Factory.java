@@ -1,70 +1,62 @@
 package jtnc;
 
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+import java.util.HashMap;
+import jtnc.IFactory;
 
-public class Factory {
-	protected List<String> instanceNames;
-	protected List<Object> instanceOverrides;
-	protected List<String> classOverrides;
-	protected IFactory factoryDelegate;
+public class Factory
+	extends AbstractFactory {
+	
+	protected Map<String, String> classOverrides = new HashMap<String, String>();
+	protected Map<String, Object> instanceOverrides = new HashMap<String, Object>();
+	protected static IFactory instance;
+	
+	public static IFactory getInstance() {
+		if (Factory.instance == null) {
+			Factory.instance = new Factory();
+		}
+		return Factory.instance;
+	}
+	
+	public Object getObject(String className, Object[] args)
+		throws 	ClassNotFoundException, InstantiationException, IllegalAccessException, 
+				NoSuchMethodException, SecurityException, IllegalArgumentException, 
+				InvocationTargetException {
+		/**
+		 * Return any instance specific overrides first.
+		 */
+		if (this.getInstanceOverrides().containsKey(className)) {
+			return this.getInstanceOverrides().get(className);
+		}
+		
+		/**
+		 * Use overridden object name if we have one
+		 */
+		if (this.getClassOverrides().containsKey(className)) {
+			className = this.getClassOverrides().get(className);
+		}
 
-	/**
-	 * @return the instanceNames
-	 */
-	public List<String> getInstanceNames() {
-		return instanceNames;
+		/**
+		 * Create new type and, if no constructions args, return new blank instance
+		 */
+		Class<?> newClassType = Class.forName(className);
+		if (args == null || args.length == 0) {
+			return newClassType.newInstance();
+		}
+
+		/**
+		 * Since we have constructor args, find a constructor matching our
+		 * argument list type signature and return a fully constructed object.
+		 */
+		Class<?> partTypes[] = new Class[args.length];
+		int i = 0;
+		for (Object obj : args) {
+			partTypes[i++] = obj.getClass();
+		}
+		
+		Constructor<?> constructor = newClassType.getConstructor(partTypes);
+		return constructor.newInstance(args);
 	}
-	/**
-	 * @param instanceNames the instanceNames to set
-	 * @return 
-	 */
-	public Factory setInstanceNames(List<String> instanceNames) {
-		this.instanceNames = instanceNames;
-		return this;
-	}
-	/**
-	 * @return the instanceOverrides
-	 */
-	public List<Object> getInstanceOverrides() {
-		return instanceOverrides;
-	}
-	/**
-	 * @param instanceOverrides the instanceOverrides to set
-	 * @return 
-	 */
-	public Factory setInstanceOverrides(List<Object> instanceOverrides) {
-		this.instanceOverrides = instanceOverrides;
-		return this;
-	}
-	/**
-	 * @return the classOverrides
-	 */
-	public List<String> getClassOverrides() {
-		return classOverrides;
-	}
-	/**
-	 * @param classOverrides the classOverrides to set
-	 * @return 
-	 */
-	public Factory setClassOverrides(List<String> classOverrides) {
-		this.classOverrides = classOverrides;
-		return this;
-	}
-	/**
-	 * @return the factoryDelegate
-	 */
-	public IFactory getFactoryDelegate() {
-		return factoryDelegate;
-	}
-	/**
-	 * @param factoryDelegate the factoryDelegate to set
-	 * @return 
-	 */
-	public Factory setFactoryDelegate(IFactory factoryDelegate) {
-		this.factoryDelegate = factoryDelegate;
-		return this;
-	}
-	
-	
-	
 }
