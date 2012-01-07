@@ -1,14 +1,9 @@
 package application;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import jtnc.IFactory;
-import jtnc.Factory;
+import jtnc.*;
+import gui.*;
 
-public class Application {
-
-	protected static IFactory objectFactory;
-	
+public class Application {	
 	/**
 	 * JTNC entry point
 	 * @param args
@@ -18,28 +13,19 @@ public class Application {
 		// get cmd line configuration
 		// get config file configuration
 		
-		Display display = null;
-		Shell shell =  null;		
 		IFactory factory = jtnc.Factory.getInstance();
+		MainWindow mainWindow = null;
 		
 		try {
-			display = (Display) factory.getObject("org.eclipse.swt.widgets.Display", null);
-			shell = (Shell) factory.getObject("org.eclipse.swt.widgets.Shell", new Object[]{display});
+			mainWindow = (MainWindow) factory.getObject("gui.MainWindow", null);
 		} catch (Exception e) {
 			System.out.println("Failed to create main app window: " + e.getMessage());
+			for (StackTraceElement ste : e.getStackTrace()) {
+				System.out.println(ste.toString());
+			}
 			System.exit(1);
 		}
-
-		shell.open();
 		
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		
-		shell.dispose();
+		mainWindow.open();
 	}
-
-	
 }
