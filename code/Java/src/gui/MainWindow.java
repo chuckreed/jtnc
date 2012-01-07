@@ -2,7 +2,15 @@ package gui;
 
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.browser.*;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
+import org.eclipse.swt.browser.OpenWindowListener;
+import org.eclipse.swt.browser.WindowEvent;
+
 import jtnc.Factory;
 import gui.BrowserWrapper;
 
@@ -43,6 +51,44 @@ public class MainWindow {
 		this.setShell((Shell) Factory.getInstance().getObject("org.eclipse.swt.widgets.Shell", new Object[]{display}));
 		this.setBrowserWrapper((BrowserWrapper) Factory.getInstance().getObject("gui.BrowserWrapper", null));
 		this.getBrowserWrapper().init(this.getShell());
+		
+		/**
+		 * Ensure browser sizes with main shell for now
+		 */
+		this.getShell().addListener(SWT.Resize, new Listener() {
+			@Override
+			public void handleEvent(Event e) {
+				Shell shell = (Shell) e.widget;
+				for (Control control : shell.getChildren()) {
+					if (control instanceof Browser) {
+						control.setSize(shell.getSize());
+						break;
+					}
+				}
+			}
+		});
+		
+		/**
+		 * Disable new window creation and warn user that
+		 * the feature is not currently supported but will
+		 * be in the future.
+		 */
+		this.getBrowserWrapper().getSwtBrowser().addOpenWindowListener(new OpenWindowListener() {
+			public void open(WindowEvent event) {
+				Browser browser = (Browser) event.widget;
+				browser.execute("alert('The JTNC does not currently support child browser windows.  This feature is planned for future released.');");
+			}
+		});
+		
+		/**
+		 * Add custom jtnc messaging javascript functions
+		 * to the swt browser.
+		 */
+		new BrowserFunction(this.getBrowserWrapper().getSwtBrowser(), "JTNCSend"){
+			public Object function(Object[] arguments) {
+				return "It worked.";
+			}
+		};
 	}
 	
 	public void open() {

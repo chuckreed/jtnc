@@ -35,7 +35,7 @@ public class BrowserWrapper {
 		try {
 			browser = new Browser(shell, SWT.NONE);
 			browser.setSize(shell.getSize());
-			browser.setUrl("http://google.com");
+			browser.setUrl("http://127.0.0.1/index.html");
 		} catch (Exception e)  {
 			throw new Exception("Failed to link to any underlying web browsers: " + e.getMessage(), e);
 		}
