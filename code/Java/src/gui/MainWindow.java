@@ -81,8 +81,8 @@ public class MainWindow {
 		});
 		
 		/**
-		 * Add custom jtnc messaging javascript functions
-		 * to the swt browser.
+		 * Add custom JTNC_sendMessage() function to our embedded browser
+		 * so the loaded web application can have a link to call extensions.
 		 */
 		new BrowserFunction(this.getBrowserWrapper().getSwtBrowser(), "JTNCSend"){
 			public Object function(Object[] arguments) {

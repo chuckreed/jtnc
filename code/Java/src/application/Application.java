@@ -2,6 +2,8 @@ package application;
 
 import jtnc.*;
 import gui.*;
+import configuration.*;
+import java.io.File;
 
 public class Application {	
 	/**
@@ -11,7 +13,18 @@ public class Application {
 	public static void main(String[] args) {
 		
 		// get cmd line configuration
+		
 		// get config file configuration
+		Options options = (Options) Options.getInstance();
+		File cwd = new File(".");
+		
+		try {
+			options.loadFromFile("config.xml");
+			System.out.println(options.getValue("extensions.extension.name"));
+		} catch (Exception e) {
+			System.out.println("Failed: " + e.getMessage() + " at " + cwd.getAbsolutePath());
+			
+		}
 		
 		IFactory factory = jtnc.Factory.getInstance();
 		MainWindow mainWindow = null;

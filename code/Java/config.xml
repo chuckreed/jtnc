@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<jtnc>
+	<extensions>
+		<extension>
+			<name>net.chuckreed.jtnc.extension.test</name>
+		</extension>
+	</extensions>
+</jtnc>
