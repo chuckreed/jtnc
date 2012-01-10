@@ -1,1 +1,1 @@
-This is the JTNC.  More to come.
+The Java Trusted Native Client (jtnc) project is a proof of concept attempt at creating a generic and flexible native client architecture for web applications.  The intent is to provide a generic Java application framework that allows web applications to access pre-configured extensions with trusted access to the client machine.  Once a sastisfactory level of functionality has been acheived, the goal is to move this bare-bones project to a proper Java application framework and get a beta version working with some live test cases.
