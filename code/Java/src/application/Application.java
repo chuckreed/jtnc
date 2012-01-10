@@ -6,39 +6,43 @@ import configuration.*;
 import java.io.File;
 
 public class Application {	
+	protected static Options appOptions;
+	
 	/**
 	 * JTNC entry point
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		IFactory factory = jtnc.Factory.getInstance();
 		
-		// get cmd line configuration
-		
-		// get config file configuration
-		Options options = (Options) Options.getInstance();
-		File cwd = new File(".");
-		
+		// get cmd line configuration and set up application options
 		try {
-			options.loadFromFile("config.xml");
-			System.out.println(options.getValue("extensions.extension.name"));
+			ICommandLine cmdLineData = (ICommandLine) factory.getObject("configuration.CommandLine", null);
+			Application.appOptions = (Options) factory.getObject("application.Options", null);
+			Application.appOptions.setCommandLineData(cmdLineData).init();
 		} catch (Exception e) {
-			System.out.println("Failed: " + e.getMessage() + " at " + cwd.getAbsolutePath());
-			
+			Application.debug(e);
 		}
 		
-		IFactory factory = jtnc.Factory.getInstance();
-		MainWindow mainWindow = null;
-		
 		try {
-			mainWindow = (MainWindow) factory.getObject("gui.MainWindow", null);
+			MainWindow mainWindow = (MainWindow) factory.getObject("gui.MainWindow", null);
+			Application.configureMainWindow(mainWindow);
+			mainWindow.open();
 		} catch (Exception e) {
-			System.out.println("Failed to create main app window: " + e.getMessage());
-			for (StackTraceElement ste : e.getStackTrace()) {
-				System.out.println(ste.toString());
-			}
+			System.out.println("Failed to create main app window:");
+			Application.debug(e);
 			System.exit(1);
 		}
-		
-		mainWindow.open();
+	}
+	
+	public static void debug(Exception e) {
+		System.out.println(e.getMessage() + "::" + e.getLocalizedMessage());
+		for (StackTraceElement ste : e.getStackTrace()) {
+			System.out.println(ste.toString());
+		}		
+	}
+	
+	public static void configureMainWindow(MainWindow mainWindow) {
+		// mainWindow.doSomeStuff(...);
 	}
 }

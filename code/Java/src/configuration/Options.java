@@ -1,28 +1,16 @@
 package configuration;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.collections.*;
-import org.apache.commons.lang.exception.NestableException;
 import org.apache.commons.configuration.XMLConfiguration;
 
 public class Options implements IOptions {
 
-	protected static IOptions instance;
 	protected XMLConfiguration xmlConfig;
 
-	static {
-		Options.instance = new Options();
-	}
-	
-	protected Options() {
+	public Options() {
 		this.xmlConfig = new XMLConfiguration();
 	}
 	
-	public static IOptions getInstance() {
-		return instance;
-	}
-	
-	public IOptions loadFromFile(String fileName) throws ConfigurationException {
+	public IOptions loadFromFile(String fileName) throws Exception {
 		this.xmlConfig.load(fileName);
 		return this;
 	}

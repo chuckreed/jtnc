@@ -1,5 +1,6 @@
 package configuration;
 
-public class CommandLine {
+public class CommandLine
+	implements ICommandLine {
 
 }
