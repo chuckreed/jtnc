@@ -1,0 +1,27 @@
+- Install the getlibs utility located at jtnc/archive/getlibs-all.deb
+
+- Locate the xulrunner package you have installed and use getlibs to
+  download the 32-bit version.  For example, if your package is named
+  xulrunner-1.9.2, you would need to run the command:
+  getlibs -p xulrunner-1.9.2
+
+- Now that we have a new version of xulrunner for x32, we need
+  to point the MOZILLA_FIVE_HOME environment variable to it.
+  You can create a custom launcher for eclipse that exports
+  this value locally when running the IDE, or go ahead and set
+  the env variable up globally.  As long as eclipse can see it,
+  it should work.  Example:
+  export MOZILLA_FIVE_HOME=/usr/lib32/xulrunner-1.9.2.24
+
+- Create the folder /usr/lib32/jini if it doesn't already exist.
+  Copy all of the files in jtnc/archive/libswt-gtk_x32/ to this
+  new jini folder.
+
+- Run the followings commands to obtain various 32-bit versions
+  of libraries Mozilla browser will need:
+  getlibs -l libxcb-atom.so.1
+  getlibs -l libxcb-event.so.1
+  getlibs -l libxcb-aux.so.0
+  getlibs -l libstartup-notification-1.so.0
+  getlibs -l libhunspell-1.2.so.0
+  getlibs -l libxpcom.so  
